@@ -1,0 +1,11 @@
+# backend/railway.toml
+# Railway reads this file to know how to run your FastAPI backend.
+# Push this file to GitHub — Railway will use it automatically.
+
+[build]
+builder = "nixpacks"
+
+[deploy]
+startCommand = "uvicorn src.main:app --host 0.0.0.0 --port $PORT"
+restartPolicyType = "on-failure"
+restartPolicyMaxRetries = 3
