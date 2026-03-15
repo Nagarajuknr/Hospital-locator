@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from .database import create_tables
 from .routers import auth, hospitals, appointments, monitoring, blood
+import re
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -23,12 +24,19 @@ app = FastAPI(
 )
 
 # Allow React portal (localhost:5173) to call this API
+
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins     = ["http://localhost:5173", "http://localhost:3000","https://hospital-locator-six.vercel.app","https://hospital-locator-pz7lva4pk-nagarajuknrs-projects.vercel.app",],
-    allow_credentials = True,
-    allow_methods     = ["*"],
-    allow_headers     = ["*"],
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "https://hospital-locator-six.vercel.app",
+    ],
+    allow_origin_regex=r"https://.*\.vercel\.app",
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # ── All routers ────────────────────────────────────────────
